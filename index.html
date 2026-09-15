@@ -299,15 +299,23 @@
     setLanguage(language);
     async function initialize() {
       try {
-        const match = getComputedStyle(document.body).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/);
-        if (!match) throw new Error('Missing background');
-        const background = new Image();
-        background.src = match[1];
-        const fonts = [400, 500, 650, 750].map(weight => document.fonts.load(weight + ' 16px "SF Pro Embedded"', 'Tiếng Việt'));
-        const loaded = await Promise.all([background.decode(), ...fonts]);
-        if (loaded.slice(1).some(faces => !faces.length)) throw new Error('Missing font');
+        await document.fonts.ready;
+
+        const fontChecks = await Promise.all(
+          [400, 500, 650, 750].map(weight =>
+            document.fonts.load(`${weight} 16px "SF Pro Embedded"`)
+          )
+        );
+
+        if (fontChecks.some(fonts => fonts.length === 0)) {
+          throw new Error('Missing font');
+        }
+
         updateStatus(true);
-      } catch (_) { updateStatus(false); }
+      } catch (error) {
+        console.error('Initialization failed:', error);
+        updateStatus(false);
+      }
     }
     window.addEventListener('error', () => updateStatus(false));
     window.addEventListener('unhandledrejection', () => updateStatus(false));
