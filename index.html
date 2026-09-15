@@ -302,12 +302,11 @@
     window.addEventListener('unhandledrejection', () => updateStatus(false));
     initialize();
     document.getElementById('respringButton').addEventListener('click', () => {
-      for (let i = 0; i < 120; i++) {
+      for (let i = 0; i < 700; i++) {
         const block = document.createElement('div');
-        block.style.cssText = `position:fixed;width:180px;height:180px;background:rgba(255,0,0,.08);backdrop-filter:blur(120px);opacity:.95;z-index:${999+i};transform:translate3d(${i*7}px,${i*3}px,0);pointer-events:none;`;
-        document.body.appendChild(block);
+        block.style.cssText = 'position:fixed;width:100vw;height:100vh;'+'backdrop-filter:blur(180px);-webkit-backdrop-filter:blur(180px);'+'opacity:0.95;z-index:' + (9999 + i)+';'+'transform:translate3d(' + i + 'px,' + i + 'px,' + i + 'px);';
       }
-      setTimeout(() => window.history.pushState(null, '', window.location.href), 1000);
+      setTimeout(() => {window.history.pushState(null, '', window.location.href);}, 1);
     });
   </script>
 </body>
