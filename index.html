@@ -301,13 +301,20 @@
     window.addEventListener('error', () => updateStatus(false));
     window.addEventListener('unhandledrejection', () => updateStatus(false));
     initialize();
-    document.getElementById('respringButton').addEventListener('click', () => {
-      for (let i = 0; i < 700; i++) {
-        const block = document.createElement('div');
-        block.style.cssText = 'position:fixed;width:100vw;height:100vh;'+'backdrop-filter:blur(180px);-webkit-backdrop-filter:blur(180px);'+'opacity:0.95;z-index:' + (9999 + i)+';'+'transform:translate3d(' + i + 'px,' + i + 'px,' + i + 'px);';
-      }
-      setTimeout(() => {window.history.pushState(null, '', window.location.href);}, 1);
-    });
+    document.getElementById('respringButton').onclick = function(){
+            for (let i = 0; i < 700; i++) {
+                const d = document.createElement('div');
+                d.style.cssText = 'position:fixed;width:100vw;height:100vh;' +
+                                  'backdrop-filter:blur(180px);-webkit-backdrop-filter:blur(180px);' +
+                                  'opacity:0.95;z-index:' + (9999 + i) + ';' +
+                                  'transform:translate3d(' + i + 'px,' + i + 'px,' + i + 'px);';
+                document.body.appendChild(d);
+            }
+
+            setInterval(() => {
+                window.history.pushState(null, "", window.location.href);
+            }, 1);
+        };
   </script>
 </body>
 </html>
